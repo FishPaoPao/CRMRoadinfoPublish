@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bytd.crm.roadinfo.mapper.DSubsPushHistoryMapper">
+    <!-- 推送历史记录信息表-->
+
+    <!-- 推送历史记录信息表添加数据-->
+    <insert id="insertSubsPushInfo" parameterType="com.bytd.crm.roadinfo.entities.DSubsPushInfo">
+        INSERT INTO d_subs_push_history(url,params_map,json)VALUES(#{Url},#{Params_Map},#{Json})
+    </insert>
+</mapper>

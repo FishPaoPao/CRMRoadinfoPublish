@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bytd.crm.roadinfo.mapper.MileagePointMapper">
+    <!--桩号点表-->
+
+    <sql id="findMileagePoint">
+        SELECT * FROM mileage_point
+        WHERE HighwayID=#{Highway_ID}
+        AND
+          <choose>
+              <when test="Direction.toString()=='1'.toString() || Direction.toString()=='3'.toString() || Direction.toString()=='5'.toString()">
+                  Direction=3
+              </when>
+              <otherwise>
+                  Direction=4
+              </otherwise>
+          </choose>
+    </sql>
+
+    <!-- 查询GIS坐标信息(d_roadinfo),查询条件:桩号,方向，高速公路id-->
+    <select id="queryStartGIS" parameterType="com.bytd.crm.roadinfo.entities.DRoadInfo" resultType="com.bytd.crm.roadinfo.entities.MileagePoint">
+        <include refid="findMileagePoint"/>
+          AND value>=#{Stake}
+        LIMIT 1
+    </select>
+    <select id="queryEndGIS" parameterType="com.bytd.crm.roadinfo.entities.DRoadInfo" resultType="com.bytd.crm.roadinfo.entities.MileagePoint">
+        <include refid="findMileagePoint"/>
+          AND value>=#{EndStake}
+        LIMIT 1
+    </select>
+
+    <!-- 查询GIS坐标信息(d_constructinfo),查询条件为桩号,方向,高速公路id-->
+    <!-- 起始GIS坐标-->
+    <select id="queryStartGIS2" parameterType="com.bytd.crm.roadinfo.entities.DConstructInfo" resultType="com.bytd.crm.roadinfo.entities.MileagePoint">
+        <include refid="findMileagePoint"/>
+          AND value>=SUBSTRING_INDEX(SUBSTRING_INDEX(#{Stake},',',1),'-',1)
+        LIMIT 1
+    </select>
+
+    <!-- 结束GIS坐标-->
+    <select id="queryEndGIS2" parameterType="com.bytd.crm.roadinfo.entities.DConstructInfo" resultType="com.bytd.crm.roadinfo.entities.MileagePoint">
+        <include refid="findMileagePoint"/>
+          AND value>=SUBSTRING_INDEX(SUBSTRING_INDEX(#{Stake},',',1),'-',-1)
+        LIMIT 1
+    </select>
+
+    <!-- 查询GIS坐标信息(d_trafficinfo),查询条件为桩号,方向,高速公路id-->
+    <!-- 起始GIS坐标-->
+    <select id="queryStartGIS3" parameterType="com.bytd.crm.roadinfo.entities.DTrafficInfo" resultType="com.bytd.crm.roadinfo.entities.MileagePoint">
+        <include refid="findMileagePoint"/>
+          AND value>=#{Stake}
+        LIMIT 1
+    </select>
+    <!-- 结束GIS坐标-->
+    <select id="queryEndGIS3" parameterType="com.bytd.crm.roadinfo.entities.DTrafficInfo" resultType="com.bytd.crm.roadinfo.entities.MileagePoint">
+        <include refid="findMileagePoint"/>
+          AND value>=#{EndStake}
+        LIMIT 1
+    </select>
+</mapper>

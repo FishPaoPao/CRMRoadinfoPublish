@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bytd.crm.roadinfo.mapper.DCustomerSubsMapper">
+    <!--客户订阅信息表-->
+
+    <!-- 查询客户订阅信息表 -->
+    <select id="queryCustomerSubs" parameterType="java.util.List" resultType="com.bytd.crm.roadinfo.entities.DCustomerSubs">
+        SELECT * FROM d_customer_subs
+    </select>
+
+    <!-- 查询客户的绑定的所有卡 -->
+    <select id="queryCards" parameterType="java.lang.String" resultType="java.lang.String" >
+        SELECT etc_card FROM d_customer_card WHERE customer_id=#{value}
+    </select>
+
+    <!-- 根据Id字段查询客户订阅信息表-->
+    <select id="queryCustomerSubsById" parameterType="java.util.List" resultType="com.bytd.crm.roadinfo.entities.DCustomerSubs">
+        SELECT * FROM d_customer_subs where id in
+        <foreach collection="list"  item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

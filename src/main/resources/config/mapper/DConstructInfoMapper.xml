@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bytd.crm.roadinfo.mapper.DConstructInfoMapper">
+    <!--施工信息表-->
+
+    <!-- 施工信息表添加数据-->
+    <insert id="insertConstructInfo" parameterType="java.util.List">
+        INSERT INTO d_constructinfo
+        (Author_ID,Begin_Date,Begin_Time,Construct_No,Created_Time,Detail,DetourImg,Direction,End_Date,End_Time,Fangwei,Highway_ID,ID,Info_ID,Location,Notice,Publish_Time,Reason,Recover_Date,Show_Info,Source,Stake,Status,StickTime,Time)
+        <foreach collection="list" open="values" item="item" separator=",">
+            (
+            #{item.Author_ID},
+            <choose>
+                <when test="item.Begin_Date==null || item.Begin_Date.toString()==''">
+                    '0000-00-00 00:00:00',
+                </when>
+                <otherwise>
+                    #{item.Begin_Date},
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="item.Begin_Time==null || item.Begin_Time.toString()==''">
+                    '00:00:00',
+                </when>
+                <otherwise>
+                    #{item.Begin_Time},
+                </otherwise>
+            </choose>
+            #{item.Construct_No},
+            <choose>
+                <when test="item.Created_Time==null || item.Created_Time.toString()==''">
+                    '0000-00-00 00:00:00',
+                </when>
+                <otherwise>
+                    #{item.Created_Time},
+                </otherwise>
+            </choose>
+            #{item.Detail},
+            #{item.DetourImg},
+            #{item.Direction},
+            <choose>
+                <when test="item.End_Date==null || item.End_Date.toString()==''">
+                    '0000-00-00 00:00:00',
+                </when>
+                <otherwise>
+                    #{item.End_Date},
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="item.End_Time==null || item.End_Time.toString()==''">
+                    '00:00:00',
+                </when>
+                <otherwise>
+                    #{item.End_Time},
+                </otherwise>
+            </choose>
+            #{item.Fangwei},
+            #{item.Highway_ID},
+            #{item.ID},
+            #{item.Info_ID},
+            #{item.Location},
+            #{item.Notice},
+            <choose>
+                <when test="item.Publish_Time==null || item.Publish_Time.toString()==''">
+                    '0000-00-00 00:00:00',
+                </when>
+                <otherwise>
+                    #{item.Publish_Time},
+                </otherwise>
+            </choose>
+            #{item.Reason},
+            <choose>
+                <when test="item.Recover_Date==null || item.Recover_Date.toString()==''">
+                    '0000-00-00 00:00:00',
+                </when>
+                <otherwise>
+                    #{item.Recover_Date},
+                </otherwise>
+            </choose>
+            #{item.Show_Info},
+            #{item.Source},
+            #{item.Stake},
+            #{item.Status},
+            <choose>
+                <when test="item.StickTime==null || item.StickTime.toString()==''">
+                    '0000-00-00 00:00:00',
+                </when>
+                <otherwise>
+                    #{item.StickTime},
+                </otherwise>
+            </choose>
+            #{item.Time}
+            )
+        </foreach>
+    </insert>
+    <!-- 查询将要下架的施工信息 -->
+    <select id="queryInvalidConstructInfo" parameterType="java.util.List" resultType="com.bytd.crm.roadinfo.entities.DConstructInfo">
+        SELECT * FROM d_constructinfo WHERE status=0
+        <if test="list != null and list.size()>0">
+            AND id NOT IN
+            <foreach collection="list" item="item" open="(" separator="," close=")">
+                #{item.ID}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="queryValidConstructInfoById" parameterType="java.lang.Integer" resultType="com.bytd.crm.roadinfo.entities.DConstructInfo">
+        SELECT * FROM d_constructinfo WHERE id=#{ID} AND status=0
+    </select>
+
+    <update id="updateConstructInfoStatus" parameterType="java.util.List">
+        UPDATE d_constructinfo SET status=1 WHERE id IN
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item.ID}
+        </foreach>
+    </update>
+</mapper>

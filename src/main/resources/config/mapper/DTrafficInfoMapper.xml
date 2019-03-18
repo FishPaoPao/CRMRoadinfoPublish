@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bytd.crm.roadinfo.mapper.DTrafficInfoMapper">
+    <!--添加路况事件信息-->
+    <insert id="insertTrafficInfo" parameterType="java.util.List">
+        INSERT INTO d_trafficinfo
+        (Author_ID,Created_Time,Detail,DetourImg,Direction,Effect,EndStake,Fangwei,Highway_ID,ID,Info_ID,IsBlock,Location,Notice,Occur_Time,Position,Publish_Time,Reason,Show_Info,Source,Stake,Status,StickTime,Type_ID)
+        <foreach collection="list" item="item" open="values" separator=",">
+            (
+            #{item.Author_ID},
+            <choose>
+                <when test="item.Created_Time==null || item.Created_Time.toString()==''">
+                    '0000-00-00 00:00:00',
+                </when>
+                <otherwise>
+                    #{item.Created_Time},
+                </otherwise>
+            </choose>
+            #{item.Detail},
+            #{item.DetourImg},
+            #{item.Direction},
+            #{item.Effect},
+            #{item.EndStake},
+            #{item.Fangwei},
+            #{item.Highway_ID},
+            #{item.ID},
+            #{item.Info_ID},
+            #{item.IsBlock},
+            #{item.Location},
+            #{item.Notice},
+            <choose>
+                <when test="item.Occur_Time==null || item.Occur_Time.toString()==''">
+                    '0000-00-00 00:00:00',
+                </when>
+                <otherwise>
+                    #{item.Occur_Time},
+                </otherwise>
+            </choose>
+            #{item.Position},
+            <choose>
+                <when test="item.Publish_Time==null || item.Publish_Time.toString()==''">
+                    '0000-00-00 00:00:00',
+                </when>
+                <otherwise>
+                    #{item.Publish_Time},
+                </otherwise>
+            </choose>
+            #{item.Reason},
+            #{item.Show_Info},
+            #{item.Source},
+            #{item.Stake},
+            #{item.Status},
+            <choose>
+                <when test="item.StickTime==null || item.StickTime.toString()==''">
+                    '0000-00-00 00:00:00',
+                </when>
+                <otherwise>
+                    #{item.StickTime},
+                </otherwise>
+            </choose>
+            #{item.Type_ID}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 查询将要下架的数据-->
+    <select id="queryInvalidTrafficInfo" parameterType="java.util.List" resultType="com.bytd.crm.roadinfo.entities.DTrafficInfo">
+        SELECT * FROM d_trafficinfo WHERE status = 0
+        <if test="list != null and list.size()>0">
+            AND id NOT IN
+            <foreach collection="list" item="item" open="(" separator="," close=")">
+                #{item.ID}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="queryValidTrafficInfoById" parameterType="java.lang.Integer" resultType="com.bytd.crm.roadinfo.entities.DTrafficInfo">
+        SELECT * FROM d_trafficinfo WHERE id = #{ID} and status=0
+    </select>
+
+    <!-- 下架数据的状态跟新为1-->
+    <update id="updateTrafficInfoStatus" parameterType="java.util.List">
+        UPDATE d_trafficinfo SET status=1 WHERE id IN
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item.ID}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- mybatis全局配置文件-->
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="config/db.properties" />
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}" />
+                <property name="url" value="${jdbc.url}" />
+                <property name="username" value="${jdbc.username}" />
+                <property name="password" value="${jdbc.password}" />
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 加载映射文件-->
+    <mappers>
+        <mapper resource="config/mapper/DRoadInfoMapper.xml" />
+        <mapper resource="config/mapper/DConstructInfoMapper.xml" />
+        <mapper resource="config/mapper/HighWayMapper.xml" />
+        <mapper resource="config/mapper/MileagePointMapper.xml" />
+        <mapper resource="config/mapper/DTrafficInfoMapper.xml" />
+        <mapper resource="config/mapper/DCustomerSubsMapper.xml" />
+        <mapper resource="config/mapper/DSubsPushHistoryMapper.xml"/>
+        <mapper resource="config/mapper/DSubsSectionMapper.xml"/>
+    </mappers>
+</configuration>
