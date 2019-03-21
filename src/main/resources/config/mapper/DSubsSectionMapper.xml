@@ -1,108 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.bytd.crm.roadinfo.mapper.DSubsSectionMapper" >
-  <resultMap id="BaseResultMap" type="com.bytd.crm.roadinfo.entities.DSubsSection" >
-    <result column="id" property="id" jdbcType="BIGINT" />
-    <result column="subs_id" property="subsId" jdbcType="BIGINT" />
-    <result column="source_highway_id" property="sourceHighwayId" jdbcType="BIGINT" />
-    <result column="source_station_id" property="sourceStationId" jdbcType="BIGINT" />
-    <result column="source_station_direction" property="sourceStationDirection" jdbcType="INTEGER" />
-    <result column="source_station_mileage" property="sourceStationMileage" jdbcType="BIGINT" />
-    <result column="target_highway_id" property="targetHighwayId" jdbcType="BIGINT" />
-    <result column="target_station_id" property="targetStationId" jdbcType="BIGINT" />
-    <result column="target_station_direction" property="targetStationDirection" jdbcType="INTEGER" />
-    <result column="target_station_mileage" property="targetStationMileage" jdbcType="BIGINT" />
+<mapper namespace="com.bytd.crm.roadinfo.mapper.DSubsSectionMapper">
+  <resultMap id="BaseResultMap" type="com.bytd.crm.roadinfo.entities.DSubsSection">
+    <result column="id" property="id" jdbcType="BIGINT"/>
+    <result column="subs_id" property="subsId" jdbcType="BIGINT"/>
+    <result column="source_highway_id" property="sourceHighwayId" jdbcType="BIGINT"/>
+    <result column="source_station_id" property="sourceStationId" jdbcType="BIGINT"/>
+    <result column="source_station_direction" property="sourceStationDirection" jdbcType="INTEGER"/>
+    <result column="source_station_mileage" property="sourceStationMileage" jdbcType="BIGINT"/>
+    <result column="target_highway_id" property="targetHighwayId" jdbcType="BIGINT"/>
+    <result column="target_station_id" property="targetStationId" jdbcType="BIGINT"/>
+    <result column="target_station_direction" property="targetStationDirection" jdbcType="INTEGER"/>
+    <result column="target_station_mileage" property="targetStationMileage" jdbcType="BIGINT"/>
   </resultMap>
-  <insert id="insert" parameterType="com.bytd.crm.roadinfo.entities.DSubsSection" >
-    insert into d_subs_section (id, subs_id, source_highway_id, 
-      source_station_id, source_station_direction, 
-      source_station_mileage, target_highway_id, target_station_id, 
-      target_station_direction, target_station_mileage
-      )
-    values (#{id,jdbcType=BIGINT}, #{subsId,jdbcType=BIGINT}, #{sourceHighwayId,jdbcType=BIGINT}, 
-      #{sourceStationId,jdbcType=BIGINT}, #{sourceStationDirection,jdbcType=INTEGER}, 
-      #{sourceStationMileage,jdbcType=BIGINT}, #{targetHighwayId,jdbcType=BIGINT}, #{targetStationId,jdbcType=BIGINT}, 
-      #{targetStationDirection,jdbcType=INTEGER}, #{targetStationMileage,jdbcType=BIGINT}
-      )
+  <insert id="insert" parameterType="com.bytd.crm.roadinfo.entities.DSubsSection">
+    insert into d_subs_section (id,
+                                subs_id,
+                                source_highway_id,
+                                source_station_id,
+                                source_station_direction,
+                                source_station_mileage,
+                                target_highway_id,
+                                target_station_id,
+                                target_station_direction,
+                                target_station_mileage)
+    values (#{id,jdbcType=BIGINT},
+            #{subsId,jdbcType=BIGINT},
+            #{sourceHighwayId,jdbcType=BIGINT},
+            #{sourceStationId,jdbcType=BIGINT},
+            #{sourceStationDirection,jdbcType=INTEGER},
+            #{sourceStationMileage,jdbcType=BIGINT},
+            #{targetHighwayId,jdbcType=BIGINT},
+            #{targetStationId,jdbcType=BIGINT},
+            #{targetStationDirection,jdbcType=INTEGER},
+            #{targetStationMileage,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.bytd.crm.roadinfo.entities.DSubsSection" >
+  <insert id="insertSelective" parameterType="com.bytd.crm.roadinfo.entities.DSubsSection">
     insert into d_subs_section
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="subsId != null" >
+      <if test="subsId != null">
         subs_id,
       </if>
-      <if test="sourceHighwayId != null" >
+      <if test="sourceHighwayId != null">
         source_highway_id,
       </if>
-      <if test="sourceStationId != null" >
+      <if test="sourceStationId != null">
         source_station_id,
       </if>
-      <if test="sourceStationDirection != null" >
+      <if test="sourceStationDirection != null">
         source_station_direction,
       </if>
-      <if test="sourceStationMileage != null" >
+      <if test="sourceStationMileage != null">
         source_station_mileage,
       </if>
-      <if test="targetHighwayId != null" >
+      <if test="targetHighwayId != null">
         target_highway_id,
       </if>
-      <if test="targetStationId != null" >
+      <if test="targetStationId != null">
         target_station_id,
       </if>
-      <if test="targetStationDirection != null" >
+      <if test="targetStationDirection != null">
         target_station_direction,
       </if>
-      <if test="targetStationMileage != null" >
+      <if test="targetStationMileage != null">
         target_station_mileage,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="subsId != null" >
+      <if test="subsId != null">
         #{subsId,jdbcType=BIGINT},
       </if>
-      <if test="sourceHighwayId != null" >
+      <if test="sourceHighwayId != null">
         #{sourceHighwayId,jdbcType=BIGINT},
       </if>
-      <if test="sourceStationId != null" >
+      <if test="sourceStationId != null">
         #{sourceStationId,jdbcType=BIGINT},
       </if>
-      <if test="sourceStationDirection != null" >
+      <if test="sourceStationDirection != null">
         #{sourceStationDirection,jdbcType=INTEGER},
       </if>
-      <if test="sourceStationMileage != null" >
+      <if test="sourceStationMileage != null">
         #{sourceStationMileage,jdbcType=BIGINT},
       </if>
-      <if test="targetHighwayId != null" >
+      <if test="targetHighwayId != null">
         #{targetHighwayId,jdbcType=BIGINT},
       </if>
-      <if test="targetStationId != null" >
+      <if test="targetStationId != null">
         #{targetStationId,jdbcType=BIGINT},
       </if>
-      <if test="targetStationDirection != null" >
+      <if test="targetStationDirection != null">
         #{targetStationDirection,jdbcType=INTEGER},
       </if>
-      <if test="targetStationMileage != null" >
+      <if test="targetStationMileage != null">
         #{targetStationMileage,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
   <select id="queryMatchSubsSection" resultType="java.math.BigInteger">
-    select distinct(subs_id)
+    select distinct (subs_id)
     from d_subs_section
-    where
-         source_highway_id = #{highwayStandardId} and
-         target_highway_id = #{highwayStandardId} and
-         source_station_direction = #{routeDirection} and
-         target_station_direction = #{routeDirection} and
-         ((source_station_mileage between #{stake} and #{endStake}) or
-          (source_station_mileage between #{endStake} and #{stake}) or
-          (target_Station_mileage between #{stake} and #{endStake}) or
-          (target_Station_mileage between #{endStake} and #{stake}))
+    where source_highway_id = #{highwayStandardId}
+      and target_highway_id = #{highwayStandardId}
+      and source_station_direction = #{routeDirection}
+      and target_station_direction = #{routeDirection}
+      and ((source_station_mileage between #{stake} and #{endStake}) or
+           (source_station_mileage between #{endStake} and #{stake}) or
+           (target_Station_mileage between #{stake} and #{endStake}) or
+           (target_Station_mileage between #{endStake} and #{stake}))
   </select>
 </mapper>

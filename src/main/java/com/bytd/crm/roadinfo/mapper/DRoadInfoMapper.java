@@ -26,4 +26,8 @@ public interface DRoadInfoMapper {
      * 跟新下架数据状态为1:失效
      */
     void updateRoadInfoStatus(List<DRoadInfo> dRoadInfos)throws Exception;
+
+    void insert(DRoadInfo dRoadInfo) throws Exception;
+
+    void updateStatus(DRoadInfo dRoadInfo) throws Exception;
 }

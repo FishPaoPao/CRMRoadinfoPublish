@@ -25,4 +25,8 @@ public interface DConstructInfoMapper {
      * 更新下架数据状态为1:失效
      */
     void updateConstructInfoStatus(List<DConstructInfo> dConstructInfos)throws Exception;
+
+    void insert(DConstructInfo dConstructInfo) throws Exception;
+
+    void updateStatusById(DConstructInfo dConstructInfo) throws Exception;
 }

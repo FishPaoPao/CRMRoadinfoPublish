@@ -6,6 +6,26 @@
     <!--施工信息表-->
 
     <!-- 施工信息表添加数据-->
+    <insert id="insert" parameterType="com.bytd.crm.roadinfo.entities.DConstructInfo">
+        INSERT INTO d_constructinfo (ID, Construct_No, Highway_ID,
+                                     Begin_Date, End_Date, Begin_Time,
+                                     End_Time, Stake, Location,
+                                     Direction, Detail, Show_Info,
+                                     Source, Author_ID, Created_Time,
+                                     Status, Time, StickTime,
+                                     Notice, Reason, Publish_Time,
+                                     Recover_Date, Info_ID, Fangwei,
+                                     DetourImg)
+        VALUES (#{ID,jdbcType=INTEGER}, #{Construct_No,jdbcType=VARCHAR}, #{Highway_ID,jdbcType=INTEGER},
+                #{Begin_Date,jdbcType=VARCHAR}, #{End_Date,jdbcType=VARCHAR}, #{Begin_Time,jdbcType=VARCHAR},
+                #{End_Time,jdbcType=VARCHAR}, #{Stake,jdbcType=VARCHAR}, #{Location,jdbcType=VARCHAR},
+                #{Direction,jdbcType=INTEGER}, #{Detail,jdbcType=VARCHAR}, #{Show_Info,jdbcType=VARCHAR},
+                #{Source,jdbcType=INTEGER}, #{Author_ID,jdbcType=INTEGER}, #{Created_Time,jdbcType=VARCHAR},
+                #{Status,jdbcType=INTEGER}, #{Time,jdbcType=VARCHAR}, #{StickTime,jdbcType=VARCHAR},
+                #{Notice,jdbcType=VARCHAR}, #{Reason,jdbcType=VARCHAR}, #{Publish_Time,jdbcType=VARCHAR},
+                #{Recover_Date,jdbcType=VARCHAR}, #{Info_ID,jdbcType=INTEGER}, #{Fangwei,jdbcType=INTEGER},
+                #{DetourImg,jdbcType=VARCHAR})
+    </insert>
     <insert id="insertConstructInfo" parameterType="java.util.List">
         INSERT INTO d_constructinfo
         (Author_ID,Begin_Date,Begin_Time,Construct_No,Created_Time,Detail,DetourImg,Direction,End_Date,End_Time,Fangwei,Highway_ID,ID,Info_ID,Location,Notice,Publish_Time,Reason,Recover_Date,Show_Info,Source,Stake,Status,StickTime,Time)
@@ -14,7 +34,7 @@
             #{item.Author_ID},
             <choose>
                 <when test="item.Begin_Date==null || item.Begin_Date.toString()==''">
-                    '0000-00-00 00:00:00',
+                    '1000-01-01 00:00:00',
                 </when>
                 <otherwise>
                     #{item.Begin_Date},
@@ -31,7 +51,7 @@
             #{item.Construct_No},
             <choose>
                 <when test="item.Created_Time==null || item.Created_Time.toString()==''">
-                    '0000-00-00 00:00:00',
+                    '1000-01-01 00:00:00',
                 </when>
                 <otherwise>
                     #{item.Created_Time},
@@ -42,7 +62,7 @@
             #{item.Direction},
             <choose>
                 <when test="item.End_Date==null || item.End_Date.toString()==''">
-                    '0000-00-00 00:00:00',
+                    '1000-01-01 00:00:00',
                 </when>
                 <otherwise>
                     #{item.End_Date},
@@ -64,7 +84,7 @@
             #{item.Notice},
             <choose>
                 <when test="item.Publish_Time==null || item.Publish_Time.toString()==''">
-                    '0000-00-00 00:00:00',
+                    '1000-01-01 00:00:00',
                 </when>
                 <otherwise>
                     #{item.Publish_Time},
@@ -73,7 +93,7 @@
             #{item.Reason},
             <choose>
                 <when test="item.Recover_Date==null || item.Recover_Date.toString()==''">
-                    '0000-00-00 00:00:00',
+                    '1000-01-01 00:00:00',
                 </when>
                 <otherwise>
                     #{item.Recover_Date},
@@ -85,7 +105,7 @@
             #{item.Status},
             <choose>
                 <when test="item.StickTime==null || item.StickTime.toString()==''">
-                    '0000-00-00 00:00:00',
+                    '1000-01-01 00:00:00',
                 </when>
                 <otherwise>
                     #{item.StickTime},
@@ -115,5 +135,9 @@
         <foreach collection="list" item="item" open="(" separator="," close=")" >
             #{item.ID}
         </foreach>
+    </update>
+
+    <update id="updateStatusById" parameterType="com.bytd.crm.roadinfo.entities.DConstructInfo">
+        UPDATE d_constructinfo SET Status = 1 WHERE ID = #{ID,jdbcType=INTEGER}
     </update>
 </mapper>

@@ -38,4 +38,17 @@ public class DRoadInfoDao{
         sqlConfiguration.getSqlSession().commit();
         sqlConfiguration.getSqlSession().close();
     }
+    public static void insert(DRoadInfo dRoadInfo) throws Exception {
+        sqlConfiguration = SqlConfiguration.getInstance();
+        sqlConfiguration.getSqlSession().getMapper(DRoadInfoMapper.class).insert(dRoadInfo);
+        sqlConfiguration.getSqlSession().commit();
+        sqlConfiguration.getSqlSession().close();
+    }
+
+    public static void updateStatus(DRoadInfo dRoadInfo) throws Exception {
+        sqlConfiguration = SqlConfiguration.getInstance();
+        sqlConfiguration.getSqlSession().getMapper(DRoadInfoMapper.class).updateStatus(dRoadInfo);
+        sqlConfiguration.getSqlSession().commit();
+        sqlConfiguration.getSqlSession().close();
+    }
 }

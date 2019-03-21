@@ -1,5 +1,6 @@
 package com.bytd.crm.roadinfo.core;
 
+import com.bytd.crm.roadinfo.entities.ResponseMsg;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -8,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -63,16 +65,16 @@ public class WebDataProxy {
         return resultString.toString();
     }
 
-    public <T> void sendObject(String urlParam, Map<String, Object> params, T entity) {
+    public <T> ResponseMsg sendObject(String urlParam, Map<String, Object> params, T entity) {
         String jsonData = JsonHelper.objectToJson(entity);
-        sendJson(urlParam, params, jsonData, "utf-8");
+        return sendJson(urlParam, params, jsonData, "utf-8");
     }
 
-    public void sendJson(String urlParam, Map<String, Object> params, String jsonText) {
-        sendJson(urlParam, params, jsonText, "utf-8");
+    public ResponseMsg sendJson(String urlParam, Map<String, Object> params, String jsonText) {
+        return sendJson(urlParam, params, jsonText, "utf-8");
     }
 
-    public void sendJson(String urlParam, Map<String, Object> params, String jsonText, String charset) {
+    public ResponseMsg sendJson(String urlParam, Map<String, Object> params, String jsonText, String charset) {
         StringBuilder resultString = new StringBuilder();
         //构建请求参数
         StringBuilder sbParams = makeRequestParams(params);
@@ -114,12 +116,15 @@ public class WebDataProxy {
                     resultString.append(line);
                 }
                 logger.info("返回结果: " + resultString);
+                return ResponseMsg.objectFromData(resultString.toString());
             } else {
                 logger.error("返回结果, code=" + conn.getResponseCode() + "desc=" + conn.getResponseMessage());
+                return new ResponseMsg(new ResponseMsg.Error(String.valueOf(conn.getResponseCode()), conn.getResponseMessage()));
             }
         } catch (Exception e) {
             logger.error(e);
             logger.error(errorTrackSpace(e));
+            return new ResponseMsg(new ResponseMsg.Error("9999", e.getMessage()));
         }
     }
 

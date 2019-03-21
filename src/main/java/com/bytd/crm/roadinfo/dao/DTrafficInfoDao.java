@@ -43,4 +43,19 @@ public class DTrafficInfoDao {
         sqlConfiguration.getSqlSession().commit();
         sqlConfiguration.getSqlSession().close();
     }
+
+    public static void insert(DTrafficInfo dTrafficInfo) throws Exception {
+        sqlConfiguration = SqlConfiguration.getInstance();
+        sqlConfiguration.getSqlSession().getMapper(DTrafficInfoMapper.class).insert(dTrafficInfo);
+        sqlConfiguration.getSqlSession().commit();
+        sqlConfiguration.getSqlSession().close();
+    }
+
+
+    public static void updateStatus(DTrafficInfo dTrafficInfo) throws Exception {
+        sqlConfiguration = SqlConfiguration.getInstance();
+        sqlConfiguration.getSqlSession().getMapper(DTrafficInfoMapper.class).updateStatus(dTrafficInfo);
+        sqlConfiguration.getSqlSession().commit();
+        sqlConfiguration.getSqlSession().close();
+    }
 }

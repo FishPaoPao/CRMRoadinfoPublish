@@ -41,4 +41,18 @@ public class DConstructInfoDao {
         sqlConfiguration.getSqlSession().commit();
         sqlConfiguration.getSqlSession().close();
     }
+
+    public static void insert(DConstructInfo dConstructInfo) throws Exception {
+        sqlConfiguration = SqlConfiguration.getInstance();
+        sqlConfiguration.getSqlSession().getMapper(DConstructInfoMapper.class).insert(dConstructInfo);
+        sqlConfiguration.getSqlSession().commit();
+        sqlConfiguration.getSqlSession().close();
+    }
+
+    public static void updateStatusById(DConstructInfo dConstructInfo) throws Exception{
+        sqlConfiguration = SqlConfiguration.getInstance();
+        sqlConfiguration.getSqlSession().getMapper(DConstructInfoMapper.class).updateStatusById(dConstructInfo);
+        sqlConfiguration.getSqlSession().commit();
+        sqlConfiguration.getSqlSession().close();
+    }
 }

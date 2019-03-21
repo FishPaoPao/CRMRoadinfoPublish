@@ -15,8 +15,8 @@
     <!--<entry key="LesutongBroad">http://172.18.1.93:8082/etc-rest/service/v1/roadNew/importStandardRoadNews</entry>-->
     <!--<entry key="LesutongSubs">http://172.18.1.93:8082/etc-rest/service/v1/roadNew/importSubscribeRoadNews</entry>-->
 
-    <entry key="LesutongBroad">http://192.168.105.129:8080/CRMTestService/rest/etc-rest/service/v1/roadNew/importStandardRoadNews</entry>
-    <entry key="LesutongSubs">http://192.168.105.129:8080/CRMTestService/rest/etc-rest/service/v1/roadNew/importSubscribeRoadNews</entry>
+    <entry key="LesutongBroad">http://localhost:8080/CRMTestService/rest/etc-rest/service/v1/roadNew/importStandardRoadNews</entry>
+    <entry key="LesutongSubs">http://localhost:8080/CRMTestService/rest/etc-rest/service/v1/roadNew/importSubscribeRoadNews</entry>
 
     <!--定时任务基础配 -->
     <!--初次执行延时,单位为秒-->

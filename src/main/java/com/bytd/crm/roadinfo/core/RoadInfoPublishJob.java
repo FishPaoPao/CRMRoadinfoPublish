@@ -78,7 +78,17 @@ public class RoadInfoPublishJob implements Job {
                 for (DRoadInfo dRoadInfo : roadInfoList) {
                     LSTRoadInfoInterface lstRoadInfoInterface = LSTRoadInfoInterface.makeParams(dRoadInfo);
                     paramsMap.put("seqNo", System.currentTimeMillis());
-                    webDataProxy.sendObject(PropertiesLoader.LESUTONG_BROAD_URL, paramsMap, lstRoadInfoInterface);
+                    ResponseMsg responseMsg =
+                            webDataProxy.sendObject(PropertiesLoader.LESUTONG_BROAD_URL, paramsMap, lstRoadInfoInterface);
+                    if("success".equals(responseMsg.getError().getErrorInfo().toLowerCase())) {
+                        if(dRoadInfo.getStatus() == 0) {
+                            //将dRoadInfo插入数据库表d_roadinfo
+                            DRoadInfoDao.insert(dRoadInfo);
+                        } else {
+                            //更新d_roadinfo表中的数据状态
+                            DRoadInfoDao.updateStatus(dRoadInfo);
+                        }
+                    }
                 }
             }
         }
@@ -106,7 +116,15 @@ public class RoadInfoPublishJob implements Job {
                 for (DConstructInfo dConstructInfo : dConstructInfos) {
                     LSTRoadInfoInterface lstRoadInfoInterface = LSTRoadInfoInterface.makeParams(dConstructInfo);
                     paramsMap.put("seqNo", System.currentTimeMillis());
-                    webDataProxy.sendObject(PropertiesLoader.LESUTONG_BROAD_URL, paramsMap, lstRoadInfoInterface);
+                    ResponseMsg responseMsg =
+                            webDataProxy.sendObject(PropertiesLoader.LESUTONG_BROAD_URL, paramsMap, lstRoadInfoInterface);
+                    if("success".equals(responseMsg.getError().getErrorInfo().toLowerCase())) {
+                        if (dConstructInfo.getStatus() == 0) {
+                            DConstructInfoDao.insert(dConstructInfo);
+                        } else {
+                            DConstructInfoDao.updateStatusById(dConstructInfo);
+                        }
+                    }
                 }
             }
         }
@@ -133,7 +151,17 @@ public class RoadInfoPublishJob implements Job {
                 for (DTrafficInfo dTrafficInfo : dTrafficInfos) {
                     LSTRoadInfoInterface lstRoadInfoInterface = LSTRoadInfoInterface.makeParams(dTrafficInfo);
                     paramsMap.put("seqNo", System.currentTimeMillis());
-                    webDataProxy.sendObject(PropertiesLoader.LESUTONG_BROAD_URL, paramsMap, lstRoadInfoInterface);
+                    ResponseMsg responseMsg =
+                            webDataProxy.sendObject(PropertiesLoader.LESUTONG_BROAD_URL, paramsMap, lstRoadInfoInterface);
+                    if("success".equals(responseMsg.getError().getErrorInfo().toLowerCase())) {
+                        if(dTrafficInfo.getStatus() == 0) {
+                            //将dTrafficInfo插入数据库
+                            DTrafficInfoDao.insert(dTrafficInfo);
+                        } else {
+                            //更新本地数据库d_trafficinfo表中的数据状态为“1”：失效
+                            DTrafficInfoDao.updateStatus(dTrafficInfo);
+                        }
+                    }
                 }
             }
         }
@@ -169,7 +197,7 @@ public class RoadInfoPublishJob implements Job {
                 dRoadInfo.setStatus(1);
             }
             //根据下架数据集合更新数据库表d_roadinfo,将相应数据status字段更新为1，表示数据失效
-            DRoadInfoDao.updateRoadInfoStatus(invalidRoadInfos);
+//            DRoadInfoDao.updateRoadInfoStatus(invalidRoadInfos);
             //将invalidRoadinfos集合中Block为0或1的数据移除，拥堵和缓行的数据从d_trafficinfo表中取
             for (DRoadInfo dRoadInfo : invalidRoadInfos) {
                 if (dRoadInfo.getBlock() == 0 || dRoadInfo.getBlock() == 1) {
@@ -188,10 +216,9 @@ public class RoadInfoPublishJob implements Job {
                 validRoadInfos.add(dRoadInfo);
             }
         }
-        //数据持久化
         removeList.clear();
         if (validRoadInfos.size() > 0) {
-            DRoadInfoDao.insertRoadInfo(validRoadInfos);
+//            DRoadInfoDao.insertRoadInfo(validRoadInfos);
             //将validRoadInfos集合中Bolck为0或1的数据移除
             for (DRoadInfo dRoadInfo : validRoadInfos) {
                 if (dRoadInfo.getBlock() == 0 || dRoadInfo.getBlock() == 1) {
@@ -236,7 +263,7 @@ public class RoadInfoPublishJob implements Job {
             }
             commonList.addAll(invalidConstructInfos);
             //根据下架数据集合更新数据库表d_ConstructInfo,将相应数据status字段更新为1，表示数据失效
-            DConstructInfoDao.updateConstructInfoStatus(invalidConstructInfos);
+//            DConstructInfoDao.updateConstructInfoStatus(invalidConstructInfos);
         }
         //生成持久化及上架数据集合
         for (DConstructInfo dConstructInfo : infoCenterDataList) {
@@ -244,9 +271,8 @@ public class RoadInfoPublishJob implements Job {
                 validConstructInfos.add(dConstructInfo);
             }
         }
-        //数据持久化
         if (validConstructInfos.size() > 0) {
-            DConstructInfoDao.insertConstructInfo(validConstructInfos);
+//            DConstructInfoDao.insertConstructInfo(validConstructInfos);
             commonList.addAll(validConstructInfos);
         }
         return commonList;
@@ -281,7 +307,7 @@ public class RoadInfoPublishJob implements Job {
             }
             commonList.addAll(invalidTrafficInfos);
             //更新本地数据库中事件信息状态为失效
-            DTrafficInfoDao.updateTrafficInfoStatus(invalidTrafficInfos);
+//            DTrafficInfoDao.updateTrafficInfoStatus(invalidTrafficInfos);
         }
         //生成持久化上架数据集合
         for (DTrafficInfo dTrafficInfo : infoCenterDataList) {
@@ -290,9 +316,8 @@ public class RoadInfoPublishJob implements Job {
             }
         }
 
-        //数据持久化
         if (validTrafficInfos.size() > 0) {
-            DTrafficInfoDao.insertTrafficInfo(validTrafficInfos);
+//            DTrafficInfoDao.insertTrafficInfo(validTrafficInfos);
             commonList.addAll(validTrafficInfos);
         }
         return commonList;

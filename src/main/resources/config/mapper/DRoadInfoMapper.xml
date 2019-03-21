@@ -13,7 +13,7 @@
             #{item.Block},
             <choose>
                 <when test="item.Created_Time==null || item.Created_Time.toString()==''">
-                    '0000-00-00 00:00:00',
+                    '1000-01-01 00:00:00',
                 </when>
                 <otherwise>
                     #{item.Created_Time},
@@ -30,7 +30,7 @@
             #{item.Notice},
             <choose>
                 <when test="item.Occur_Time==null || item.Occur_Time.toString()==''">
-                    '0000-00-00 00:00:00',
+                    '1000-01-01 00:00:00',
                 </when>
                 <otherwise>
                     #{item.Occur_Time},
@@ -39,7 +39,7 @@
             #{item.Position},
             <choose>
                 <when test="item.Publish_Time==null || item.Publish_Time.toString()==''">
-                    '0000-00-00 00:00:00',
+                    '1000-01-01 00:00:00',
                 </when>
                 <otherwise>
                     #{item.Publish_Time},
@@ -52,7 +52,7 @@
             #{item.Status},
             <choose>
                 <when test="item.StickTime==null || item.StickTime.toString()==''">
-                    '0000-00-00 00:00:00',
+                    '1000-01-01 00:00:00',
                 </when>
                 <otherwise>
                     #{item.StickTime},
@@ -86,4 +86,26 @@
         </foreach>
     </update>
 
+    <insert id="insert" parameterType="com.bytd.crm.roadinfo.entities.DRoadInfo">
+        INSERT INTO d_roadinfo (id, Highway_ID, Type_ID,
+                                Direction, Stake, Location,
+                                Position, Effect, Notice,
+                                Source, Publish_Time, Author_ID,
+                                Created_Time, Status, Show_info,
+                                Occur_Time, Reason, StickTime,
+                                Info_ID, Fangwei, Block,
+                                EndStake, T_id)
+        VALUES (#{ID,jdbcType=INTEGER}, #{Highway_ID,jdbcType=INTEGER}, #{Type_ID,jdbcType=VARCHAR},
+                #{Direction,jdbcType=INTEGER}, #{Stake,jdbcType=INTEGER}, #{Location,jdbcType=VARCHAR},
+                #{Position,jdbcType=VARCHAR}, #{Effect,jdbcType=VARCHAR}, #{Notice,jdbcType=VARCHAR},
+                #{Source,jdbcType=INTEGER}, #{Publish_Time,jdbcType=TIMESTAMP}, #{Author_ID,jdbcType=INTEGER},
+                #{Created_Time,jdbcType=TIMESTAMP}, #{Status,jdbcType=INTEGER}, #{Show_Info,jdbcType=VARCHAR},
+                #{Occur_Time,jdbcType=TIMESTAMP}, #{Reason,jdbcType=VARCHAR}, #{StickTime,jdbcType=TIMESTAMP},
+                #{Info_ID,jdbcType=INTEGER}, #{Fangwei,jdbcType=INTEGER}, #{Block,jdbcType=INTEGER},
+                #{EndStake,jdbcType=INTEGER}, #{T_id,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateStatus" parameterType="com.bytd.crm.roadinfo.entities.DRoadInfo">
+        UPDATE d_roadinfo SET Status = #{Status,jdbcType=INTEGER} WHERE id = #{ID,jdbcType=INTEGER}
+    </update>
 </mapper>

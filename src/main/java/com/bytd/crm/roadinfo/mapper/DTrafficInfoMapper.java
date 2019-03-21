@@ -23,5 +23,9 @@ public interface DTrafficInfoMapper {
     /**
      * 跟新下架数据状态为1:失效
      */
-    void updateTrafficInfoStatus(List<DTrafficInfo> dTrafficInfos)throws Exception;
+    void updateTrafficInfoStatus(List<DTrafficInfo> dTrafficInfos) throws Exception;
+
+    void insert(DTrafficInfo dTrafficInfo) throws Exception;
+
+    void updateStatus(DTrafficInfo dTrafficInfo) throws Exception;
 }
