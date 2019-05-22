@@ -263,18 +263,50 @@ public class LSTRoadInfoInterface {
      * @param time 影响时间
      * @return 起止时间 list[0]:开始时间,list[1]:终止时间，null,输入参数格式有误
      */
-    public List<String> parseTime(String time){
-        String pattern = "^(\\d+)\\D+(\\d+)\\D+";
-        Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(time);
-        if(m.find()){
+    public List<String> parseTime(String time) {
+        if (!"".equals(time) && time != null) {
+            String[] temp = time.split("至");
             List<String> timeList = new ArrayList<>();
-            timeList.add(m.group(1) + ":00:00");
-            timeList.add(m.group(2) + ":00:00");
+            for (String ele : temp) {
+                ele.replace("次日", "");
+                String pattern = "(\\d+)\\D";
+                Pattern r = Pattern.compile(pattern);
+                Matcher m = r.matcher(ele);
+                int count = 0;
+                String timeStr = "";
+                while (m.find()) {
+                    count++;
+                    timeStr += m.group(1) + ":";
+                }
+                switch (count) {
+                    case 1:
+                        timeStr += "00:00";
+                        break;
+                    case 2:
+                        timeStr += "00";
+                        break;
+                    case 3:
+                        timeStr = timeStr.substring(0, timeStr.length() - 1);
+                    default:
+                }
+                timeList.add(timeStr);
+            }
             return timeList;
         }
         return null;
     }
+//    public List<String> parseTime(String time){
+//        String pattern = "^(\\d+)\\D+(\\d+)\\D+";
+//        Pattern r = Pattern.compile(pattern);
+//        Matcher m = r.matcher(time);
+//        if(m.find()){
+//            List<String> timeList = new ArrayList<>();
+//            timeList.add(m.group(1) + ":00:00");
+//            timeList.add(m.group(2) + ":00:00");
+//            return timeList;
+//        }
+//        return null;
+//    }
 
     public static LSTRoadInfoInterface makeParams(DRoadInfo dRoadInfo){
         LSTRoadInfoInterface lstRoadInfoInterface = new LSTRoadInfoInterface();

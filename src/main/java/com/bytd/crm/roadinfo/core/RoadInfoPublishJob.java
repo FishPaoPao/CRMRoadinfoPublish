@@ -105,6 +105,7 @@ public class RoadInfoPublishJob implements Job {
         Map<String, Object> paramsMap = new HashMap<>();
         //从信息中心获取数据
         String resultString = webDataProxy.getData(PropertiesLoader.CONST_URL, null, "utf-8");
+//        resultString = "[{\"Author_ID\":1,\"Begin_Date\":\"2018\\/8\\/14 0:00:00\",\"Begin_Time\":\"\",\"Created_Time\":\"2018/8/14 2:04:43\",\"Direction\":1,\"End_Date\":\"2018\\/8\\/15 0:00:00\",\"End_Time\":\"\",\"Fangwei\":0,\"Highway_ID\":5,\"ID\":19558,\"Info_ID\":13363,\"Location\":\"羊山隧道至新农村桥\",\"Publish_Time\":\"2018/8/14 16:30:06\",\"Reason\":\"占道施工\",\"Recover_Date\":\"\",\"Show_Info\":\"10时至16时，京承高速进京方向K74羊山隧道至K68+400新农村桥占道施工。\",\"Source\":0,\"Stake\":\"74000-68400,\",\"Status\":0,\"StickTime\":\"\",\"Time\":\"10时至16时\"}]";
         List<DConstructInfo> dConstructInfos = new ArrayList<>();
         if (resultString != null && resultString.length() > 0) {
             List<DConstructInfo> jsonToConstructInfoList = JsonHelper.jsonToObject(resultString, DConstructInfo.class);
@@ -112,6 +113,11 @@ public class RoadInfoPublishJob implements Job {
             dConstructInfos = constructInfoDataProcess(jsonToConstructInfoList);
             //发起post请求，将路况信息数据转发至乐速通
             logger.info("待转发施工信息: " + "count=" + dConstructInfos.size());
+            ArrayList<Integer> tempList = new ArrayList();
+            for(DConstructInfo dConstructInfo : dConstructInfos) {
+                tempList.add(dConstructInfo.getID());
+            }
+            logger.info("待转发消息id:" + tempList);
             if (dConstructInfos.size() > 0) {
                 for (DConstructInfo dConstructInfo : dConstructInfos) {
                     LSTRoadInfoInterface lstRoadInfoInterface = LSTRoadInfoInterface.makeParams(dConstructInfo);
