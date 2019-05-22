@@ -83,7 +83,11 @@ public class RoadInfoPublishJob implements Job {
                     if("success".equals(responseMsg.getError().getErrorInfo().toLowerCase())) {
                         if(dRoadInfo.getStatus() == 0) {
                             //将dRoadInfo插入数据库表d_roadinfo
-                            DRoadInfoDao.insert(dRoadInfo);
+//                            DRoadInfoDao.insert(dRoadInfo);
+                            ArrayList<DRoadInfo> list = new ArrayList<>();
+                            list.add(dRoadInfo);
+                            DRoadInfoDao.insertRoadInfo(list);
+                            list.clear();
                         } else {
                             //更新d_roadinfo表中的数据状态
                             DRoadInfoDao.updateStatus(dRoadInfo);
@@ -126,7 +130,11 @@ public class RoadInfoPublishJob implements Job {
                             webDataProxy.sendObject(PropertiesLoader.LESUTONG_BROAD_URL, paramsMap, lstRoadInfoInterface);
                     if("success".equals(responseMsg.getError().getErrorInfo().toLowerCase())) {
                         if (dConstructInfo.getStatus() == 0) {
-                            DConstructInfoDao.insert(dConstructInfo);
+//                            DConstructInfoDao.insert(dConstructInfo);
+                            ArrayList<DConstructInfo> list = new ArrayList<>();
+                            list.add(dConstructInfo);
+                            DConstructInfoDao.insertConstructInfo(list);
+                            list.clear();
                         } else {
                             DConstructInfoDao.updateStatusById(dConstructInfo);
                         }
@@ -162,7 +170,11 @@ public class RoadInfoPublishJob implements Job {
                     if("success".equals(responseMsg.getError().getErrorInfo().toLowerCase())) {
                         if(dTrafficInfo.getStatus() == 0) {
                             //将dTrafficInfo插入数据库
-                            DTrafficInfoDao.insert(dTrafficInfo);
+//                            DTrafficInfoDao.insert(dTrafficInfo);
+                            ArrayList<DTrafficInfo> list = new ArrayList<>();
+                            list.add(dTrafficInfo);
+                            DTrafficInfoDao.insertTrafficInfo(list);
+                            list.clear();
                         } else {
                             //更新本地数据库d_trafficinfo表中的数据状态为“1”：失效
                             DTrafficInfoDao.updateStatus(dTrafficInfo);
